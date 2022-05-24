@@ -36,33 +36,37 @@ class Solution {
     // Function to return Breadth First Traversal of given graph.
     public ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
         
-        ArrayList<Integer> bfs = new ArrayList<Integer>();
-        boolean[] visited = new boolean[V];
+        //Declare data structures
+        ArrayList<Integer> bfs = new ArrayList<>();
+        boolean[] visited = new boolean[V + 1];
+        //Arrays.fill(visited , false);
         
-        int i = 0;
-        
-        if(visited[i] == false){
-            
-            Queue<Integer> queue = new LinkedList<>();
-            queue.add(i);
-            visited[i] = true;
-            
-            while(!queue.isEmpty()){
-                Integer node = queue.poll();
-                bfs.add(node);
-                
-                for(Integer it : adj.get(node)){
-                    if(visited[it] == false){
-                        visited[it] = true;
-                        queue.add(it);
-                    }
-                }
-            }
-            
-            
-        }
-        
+        //Traverse for every node in the graph
+        //for(int i = 1 ; i <= V ; i++){
+          
+          //Check if the given node is visited
+          int i = 0;
+          if(!visited[i]){
+              //Declare queue to store the neighbours of current node
+              Queue<Integer> queue = new LinkedList<>();
+              //int i = 0;
+              queue.add(i);
+              visited[i] = true;
+              
+              //Traverse the neighbours of the current node
+              while(!queue.isEmpty()){
+                  Integer node = queue.poll();
+                  bfs.add(node);
+                  
+                  for(Integer it : adj.get(node)){
+                      if(!visited[it]){
+                          visited[it] = true;
+                          queue.add(it);
+                      }
+                  }
+              }
+          }
+       // }
         return bfs;
-        
     }
 }
