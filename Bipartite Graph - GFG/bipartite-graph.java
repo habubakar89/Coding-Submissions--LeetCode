@@ -36,21 +36,14 @@ class GFG
 
 class Solution
 {
-    public boolean bfsCheck(int node , int[] color , ArrayList<ArrayList<Integer>>adj){
-        Queue<Integer> queue = new LinkedList<Integer>();
-        queue.add(node);
-        color[node] = 1;
+    public boolean checkDFS(int [] color , int v , ArrayList<ArrayList<Integer>>adj){
         
-        while(!queue.isEmpty()){
-            Integer v = queue.poll();
-            
-            for(Integer it : adj.get(v)){
-                if(color[it] == -1){
-                    color[it] = 1 - color[v];
-                    queue.add(it);
-        }
-                else if(color[it] == color[v]) return false;
+        for(Integer it :adj.get(v)){
+            if(color[it] == -1){
+                color[it] = 1 - color[v];
+                if(!checkDFS(color,it,adj)) return false;
             }
+            else if(color[it] == color[v]) return false;
         }
         return true;
     }
@@ -59,9 +52,9 @@ class Solution
         int[] color = new int[V];
         Arrays.fill(color,-1);
         
-        for(int i = 0 ; i < V ; i++){
+        for(int i = 0 ; i < V; i++){
             if(color[i] == -1){
-                if(!bfsCheck(i,color,adj)) return false;
+                if(!checkDFS(color,i,adj)) return false;
             }
         }
         return true;
