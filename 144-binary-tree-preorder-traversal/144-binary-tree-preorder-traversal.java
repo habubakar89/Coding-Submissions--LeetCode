@@ -15,21 +15,31 @@
  */
 class Solution {
     public List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> list = new ArrayList<>();
-        return preorder(root , list);
-    }
-    public List<Integer> preorder(TreeNode root , List<Integer> list){
         
-        //Check if the last leaf is reached
-        if(root == null) return list;
+        //Define the DS to be used
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> preorder = new LinkedList<>();
         
-        //Add the root to the list
-        list.add(root.val);
+        //Check for the edge case
+        if(root == null) return preorder;
         
-        //Traverse left then right
-        preorder(root.left , list);
-        preorder(root.right , list);
+        //Push the root into the stack
+        stack.push(root);
         
-        return list;
+        //Iterate over the stack in a pre-order manner
+        while(!stack.isEmpty()){
+            TreeNode temp = stack.pop();
+            
+            //Add the root to the final list
+            preorder.add(temp.val);
+            
+            //Check for the right and the left children of the current root
+            if(temp.right != null) stack.push(temp.right);
+            if(temp.left != null) stack.push(temp.left);
+            
+        }
+        
+        return preorder;
+        
     }
 }
