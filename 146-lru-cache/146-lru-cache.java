@@ -1,9 +1,25 @@
-import java.util.*;
-import java.lang.*;
+//Declare the node class
+class Node{
+    
+    int key , value;
+    Node prev;
+    Node next;
+    
+    public Node(int key , int value){
+        
+        this.key = key;
+        this.value = value;
+        
+    }
+}
 class LRUCache {
-    Node head = new Node(0,0);
-    Node tail = new Node(0,0);
-    Map<Integer,Node> dict = new HashMap<>();
+    
+    //Declare DS for the LRU Cache
+    Node head = new Node(0 , 0);
+    Node tail = new Node(0 , 0);
+    
+    
+    Map<Integer , Node> dict = new HashMap<>();
     int capacity;
     
     public LRUCache(int capacity) {
@@ -23,19 +39,21 @@ class LRUCache {
     }
     
     public void put(int key, int value) {
-        Node node = new Node(key,value);
+        Node node = new Node(key , value);
         if(dict.containsKey(key)) delete(dict.get(key));
         if(dict.size() == capacity) delete(tail.prev);
+        
+            
         insert(node);
     }
     
     public void insert(Node node){
-        dict.put(node.key, node);
+        dict.put(node.key , node);
         node.next = head.next;
-        node.next.prev = node;
+        head.next.prev=node;
         head.next = node;
         node.prev = head;
-         
+        
     }
     public void delete(Node node){
         dict.remove(node.key);
@@ -43,18 +61,7 @@ class LRUCache {
         node.next.prev = node.prev;
     }
 }
-class Node {
-    int key;
-    int value;
-    Node prev;
-    Node next;
- 
-    public Node(int key, int value)
-    {
-        this.key = key;
-        this.value = value;
-    }
-}
+
 /**
  * Your LRUCache object will be instantiated and called as such:
  * LRUCache obj = new LRUCache(capacity);
