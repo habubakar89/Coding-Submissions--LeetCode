@@ -33,16 +33,16 @@ class DriverClass {
 class Solution {
     // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
-        //Declaring the DS
+        
+        //Declare the DS
         boolean[] visited = new boolean[V];
         boolean[] dfsVisited = new boolean[V];
         
-        //Check for all the nodes in the graph
+        //Check for all vertices
         for(int i = 0 ; i < V ; i++){
-            if(visited[i] == false){
-                if(checkForCycle( i , visited , dfsVisited , adj)) return true;
+            if(!visited[i]){
+                if(checkForCycle(i , visited , dfsVisited , adj)) return true;
             }
-            
         }
         
         return false;
@@ -50,10 +50,12 @@ class Solution {
     
     public boolean checkForCycle(int node , boolean[] visited , boolean[] dfsVisited , ArrayList<ArrayList<Integer>> adj){
         
-        //Assign visited to the current node
+        //Mark the current node as visited
         visited[node] = true;
         dfsVisited[node] = true;
         
+        
+        //Iterate through the neighbours of the current node
         for(int it : adj.get(node)){
             if(!visited[it]){
                 if(checkForCycle(it , visited , dfsVisited , adj)) return true;
@@ -61,9 +63,7 @@ class Solution {
             else if(dfsVisited[it]) return true;
         }
         
-        
         dfsVisited[node] = false;
         return false;
     }
-    
 }
