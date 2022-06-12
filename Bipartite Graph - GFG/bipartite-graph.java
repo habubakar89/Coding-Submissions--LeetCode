@@ -36,27 +36,41 @@ class GFG
 
 class Solution
 {
-    public boolean checkDFS(int [] color , int v , ArrayList<ArrayList<Integer>>adj){
-        
-        for(Integer it :adj.get(v)){
-            if(color[it] == -1){
-                color[it] = 1 - color[v];
-                if(!checkDFS(color,it,adj)) return false;
-            }
-            else if(color[it] == color[v]) return false;
-        }
-        return true;
-    }
     public boolean isBipartite(int V, ArrayList<ArrayList<Integer>>adj)
     {
+        //Colors will be 0 and 1, -1 denotes that the node has no color yet, or has not been visited
+        //Declare the DS
         int[] color = new int[V];
-        Arrays.fill(color,-1);
+        Arrays.fill(color , -1);
         
-        for(int i = 0 ; i < V; i++){
+        for(int i = 0 ; i < V ; i++){
             if(color[i] == -1){
-                if(!checkDFS(color,i,adj)) return false;
+                if(!checkForBipartite(i , color , adj)) return false;
             }
         }
+        
+        return true;
+    }
+    
+    public boolean checkForBipartite(int node , int[] color , ArrayList<ArrayList<Integer>>adj){
+        
+        //Declare the DS
+        Queue<Integer> queue = new LinkedList<>();
+        
+        color[node] = 1;
+        queue.add(node);
+        
+        while(!queue.isEmpty()){
+            int currentNode = queue.poll();
+            for(int it : adj.get(currentNode)){
+                if(color[it] == -1){
+                    color[it] = 1 - color[currentNode];
+                    queue.add(it);
+                }
+                else if(color[it] == color[currentNode]) return false;
+            }
+        }
+        
         return true;
     }
 }
