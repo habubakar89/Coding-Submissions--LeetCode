@@ -38,39 +38,38 @@ class Solution
 {
     public boolean isBipartite(int V, ArrayList<ArrayList<Integer>>adj)
     {
-        //Colors will be 0 and 1, -1 denotes that the node has no color yet, or has not been visited
+        
         //Declare the DS
         int[] color = new int[V];
+        //-1 for no color or not visited, 0 and 1 to denote the two colors we have
         Arrays.fill(color , -1);
         
         for(int i = 0 ; i < V ; i++){
             if(color[i] == -1){
-                if(!checkForBipartite(i , color , adj)) return false;
+                if(!checkWithDFS(i , color , adj)) return false;
             }
         }
         
         return true;
     }
     
-    public boolean checkForBipartite(int node , int[] color , ArrayList<ArrayList<Integer>>adj){
+    public boolean checkWithDFS(int node , int[] color , ArrayList<ArrayList<Integer>>adj){
         
-        //Declare the DS
-        Queue<Integer> queue = new LinkedList<>();
+        //Only for the nodes that have not been colored/visited yet
+        if(color[node] == -1) color[node] = 1;
         
-        color[node] = 1;
-        queue.add(node);
-        
-        while(!queue.isEmpty()){
-            int currentNode = queue.poll();
-            for(int it : adj.get(currentNode)){
-                if(color[it] == -1){
-                    color[it] = 1 - color[currentNode];
-                    queue.add(it);
-                }
-                else if(color[it] == color[currentNode]) return false;
+        //Igterate through the neighbours of the current node
+        for(int it : adj.get(node)){
+            if(color[it] == -1){
+                color[it] = 1 - color[node];
+                if(!checkWithDFS(it , color , adj)) return false;
             }
+            else if(color[it] == color[node]) return false;
         }
         
         return true;
+        
+        
+        
     }
 }
