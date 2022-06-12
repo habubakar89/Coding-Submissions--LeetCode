@@ -36,37 +36,31 @@ class Solution {
     // Function to return Breadth First Traversal of given graph.
     public ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
         
-        //Declare data structures
-        ArrayList<Integer> bfs = new ArrayList<>();
-        boolean[] visited = new boolean[V + 1];
-        //Arrays.fill(visited , false);
+        //Declare the DS
+        ArrayList<Integer> bfsList = new ArrayList<Integer>();
+        Queue<Integer> queue = new LinkedList<>();
+        int[] visited = new int[V];
         
-        //Traverse for every node in the graph
-        //for(int i = 1 ; i <= V ; i++){
-          
-          //Check if the given node is visited
-          int i = 0;
-          if(!visited[i]){
-              //Declare queue to store the neighbours of current node
-              Queue<Integer> queue = new LinkedList<>();
-              //int i = 0;
-              queue.add(i);
-              visited[i] = true;
-              
-              //Traverse the neighbours of the current node
-              while(!queue.isEmpty()){
-                  Integer node = queue.poll();
-                  bfs.add(node);
-                  
-                  for(Integer it : adj.get(node)){
-                      if(!visited[it]){
-                          visited[it] = true;
-                          queue.add(it);
-                      }
-                  }
-              }
-          }
-       // }
-        return bfs;
+        //Add the first element to the queue
+        queue.add(0);
+        visited[0] = 1;
+        
+        //While the graph has been traversed
+        while(!queue.isEmpty()){
+            //Remove the currennt node from the queue
+            int node = queue.poll();
+            bfsList.add(node);
+            //Iterate throught the neighbours of the current node
+            for(int it : adj.get(node)){
+                //Visit if not visited
+                if(visited[it] == 0){
+                    visited[it] = 1;
+                    queue.add(it);
+                }
+            }
+            
+        }
+        
+        return bfsList;
     }
 }
