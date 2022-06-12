@@ -63,33 +63,29 @@ class Solution
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
         //Declare the DS
-        Stack<Integer> stack = new Stack<>();
-        boolean[] visited = new boolean[V];
-        int[] array = new int[V];
+        int[] indegree = new int[V];
+        Queue<Integer> queue = new LinkedList<>();
+        int[] topoSort = new int[V];
         
         for(int i = 0 ; i < V ; i++){
-            if(!visited[i]) findOrder(i , visited , stack , adj);
+            for(int it : adj.get(i)) indegree[it]++;
         }
         
+        //Push elements with indegree 0 to the queue
         for(int i = 0 ; i < V ; i++){
-            array[i] = stack.pop();
+            if(indegree[i] == 0) queue.add(i);
         }
         
-        return array;
-        
-        
-    }
-    
-    static void findOrder(int node ,boolean[] visited , Stack<Integer> stack , ArrayList<ArrayList<Integer>> adj){
-        
-        //Visited the current node
-        visited[node] = true;
-        
-        //Iterate through the neighbours of current node
-        for(int it : adj.get(node)){
-            if(!visited[it]) findOrder(it , visited , stack , adj);
+        int index = 0;
+        while(!queue.isEmpty()){
+            int node = queue.poll();
+            topoSort[index++] = node;
+            
+            for(int it : adj.get(node)){
+                indegree[it]--;
+                if(indegree[it] == 0) queue.add(it); 
+            }
         }
-        
-        stack.push(node);
+        return topoSort;
     }
 }
