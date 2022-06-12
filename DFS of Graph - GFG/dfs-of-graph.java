@@ -35,24 +35,30 @@ class GFG {
 
 class Solution {
     // Function to return a list containing the DFS traversal of the graph.
-    
-    public void dfs(Integer node , ArrayList<Integer> dfs,boolean[] vis,ArrayList<ArrayList<Integer>> adj ){
-        dfs.add(node);
-        vis[node] = true;
+    public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
         
-        for(Integer it : adj.get(node)){
-            if(!vis[it]) dfs(it , dfs,vis,adj);
-        }
+        //Declare the DS
+        ArrayList<Integer> dfsList = new ArrayList<Integer>();
+        boolean[] visited = new boolean[V];
+        
+        /
+        dfs(0 , adj , dfsList , visited);
+        
+        return dfsList;
+        
     }
     
-    public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
-        ArrayList<Integer> dfs = new ArrayList<>();
-        boolean[] vis = new boolean[V+1];
+    //Recursive DFS Function
+    public void dfs(int node , ArrayList<ArrayList<Integer>> adj , ArrayList<Integer> dfsList , boolean[] visited){
+       
+       //Add the current node and mark it visited
+        visited[node] = true;
+        dfsList.add(node);
         
-        int i = 0;
-        if(!vis[i]){
-            dfs(i , dfs , vis , adj);
+        //Go through the neighbours of the current node
+        for(int it : adj.get(node)){
+            if(!visited[it]) dfs(it , adj , dfsList , visited);
         }
-        return dfs;
+        
     }
 }
