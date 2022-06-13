@@ -64,28 +64,33 @@ class Solution
     {
         //Declare the DS
         int[] indegree = new int[V];
-        Queue<Integer> queue = new LinkedList<>();
         int[] topoSort = new int[V];
+        Queue<Integer> queue = new LinkedList<>();
         
+        //Calculating the indegree for each node
         for(int i = 0 ; i < V ; i++){
             for(int it : adj.get(i)) indegree[it]++;
         }
         
-        //Push elements with indegree 0 to the queue
+        //Adding the indegree = 0 nodes to the queue
         for(int i = 0 ; i < V ; i++){
             if(indegree[i] == 0) queue.add(i);
         }
         
         int index = 0;
+        
+        //BFS
         while(!queue.isEmpty()){
             int node = queue.poll();
             topoSort[index++] = node;
             
+            //Iterate through the neighbours of the current node
             for(int it : adj.get(node)){
                 indegree[it]--;
-                if(indegree[it] == 0) queue.add(it); 
+                if(indegree[it] == 0) queue.add(it);
             }
         }
+        
         return topoSort;
     }
 }
