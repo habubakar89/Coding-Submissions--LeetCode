@@ -33,37 +33,32 @@ class DriverClass {
 class Solution {
     // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
-        
         //Declare the DS
-        boolean[] visited = new boolean[V];
-        boolean[] dfsVisited = new boolean[V];
+        int[] indegree = new int[V];
+        Queue<Integer> queue = new LinkedList<>();
         
-        //Check for all vertices
+        //Calculate the indegree for the nodes
         for(int i = 0 ; i < V ; i++){
-            if(!visited[i]){
-                if(checkForCycle(i , visited , dfsVisited , adj)) return true;
-            }
+            for(int it : adj.get(i)) indegree[it]++;
         }
         
-        return false;
-    }
-    
-    public boolean checkForCycle(int node , boolean[] visited , boolean[] dfsVisited , ArrayList<ArrayList<Integer>> adj){
-        
-        //Mark the current node as visited
-        visited[node] = true;
-        dfsVisited[node] = true;
-        
-        
-        //Iterate through the neighbours of the current node
-        for(int it : adj.get(node)){
-            if(!visited[it]){
-                if(checkForCycle(it , visited , dfsVisited , adj)) return true;
-            }
-            else if(dfsVisited[it]) return true;
+        //Adding nodes with indegree = 0 to the queue
+        for(int i = 0 ; i < V ; i++){
+            if(indegree[i] == 0) queue.add(i);
         }
         
-        dfsVisited[node] = false;
-        return false;
+        int count = 0;
+        
+        //BFS
+        while(!queue.isEmpty()){
+            int node = queue.poll();
+            count++;
+            for(int it : adj.get(node)){
+                indegree[it]--;
+                if(indegree[it] == 0) queue.add(it);
+            }
+        }
+        if(V == count) return false;
+        return true;
     }
 }
