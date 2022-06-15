@@ -9,29 +9,29 @@
  * }
  */
 class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int N) {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
         
-        //Assign a dummy node here
-        ListNode dummy = head;
+        //Declare and define the starting node
+        ListNode start = new ListNode();
+        start.next = head;
         
-        int counter = 0;
+        //Declare the slow and the fast pointers
+        ListNode slow = start;
+        ListNode fast = start;
         
-        while(dummy != null){
-            dummy = dummy.next;
-            counter++;
+        //Iterate the fast pointer
+        for(int i = 1 ; i <= n ; i++) fast = fast.next;
+        
+        //Iterate both the pointers
+        while(fast.next != null){
+            fast = fast.next;
+            slow = slow.next;
         }
         
-        //Remove the head if it is to be removed
-        if(counter == N) return head.next;
+        //Delete the node next tot he slow pointer
+        slow.next = slow.next.next;
         
-        dummy = head;
-        
-        for(int i = 0 ; i < (counter - N - 1) ; i++){
-                dummy = dummy.next;
-        }
-        
-        dummy.next = dummy.next.next;
-        
-        return head;
+        //Return the list
+        return start.next;
     }
 }
