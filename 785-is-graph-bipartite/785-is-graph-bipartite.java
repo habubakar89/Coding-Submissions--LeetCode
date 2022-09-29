@@ -14,23 +14,23 @@ class Solution {
     }
     
     public boolean checkBFS(int node , int[][] graph , int[] visited){
-        Queue<Integer> queue = new LinkedList<>();
-        visited[node] = 1;
-        queue.add(node);
+        // Queue<Integer> queue = new LinkedList<>();
+        if(visited[node] == -1) visited[node] = 1;
+        // queue.add(node);
         
-        while(!queue.isEmpty()){
-            int currentNode = queue.poll();
+        // while(!queue.isEmpty()){
+            // int currentNode = queue.poll();
             
-            for(int it : graph[currentNode]){
+            for(int it : graph[node]){
                 if(visited[it] == -1){
-                    visited[it] = 1 - visited[currentNode];
-                    queue.add(it);
+                    visited[it] = 1 - visited[node];
+                    if(!checkBFS(it , graph , visited)) return false;
                     
                 }
-                else if(visited[it] == visited[currentNode]) return false;
+                else if(visited[it] == visited[node]) return false;
             }
             
-        }
+        // }
             
             
         
