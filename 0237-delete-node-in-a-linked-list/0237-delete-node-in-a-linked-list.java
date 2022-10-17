@@ -9,11 +9,11 @@
 class Solution {
     public void deleteNode(ListNode node) {
         
-        //Check for the edge cases
-        if(node == null || node.next == null) return;
+       if(node == null || node.next == null) return;
         
         node.val = node.next.val;
         node.next = node.next.next;
+      
         
     }
 }
