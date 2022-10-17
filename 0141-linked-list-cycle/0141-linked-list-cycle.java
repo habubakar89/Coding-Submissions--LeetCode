@@ -16,7 +16,7 @@ public class Solution {
         if(head == null || head.next == null) return false;
         
         while(head.next != null){
-            if(head.next == head) return true;
+            if(head == head.next) return true;
             ListNode temp = head.next;
             head.next = head;
             head = temp;
